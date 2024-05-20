@@ -1,0 +1,40 @@
+name: 'Cargo LLVM Cov'
+description: 'Run cargo-llvm-cov to generate test coverage reports for Rust projects'
+inputs:
+  args:
+    description: 'Arguments to pass to cargo-llvm-cov'
+    required: false
+    default: '--all-features -- --tests'
+outputs:
+  coverage-path:
+    description: 'Path to the generated coverage report'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+
+    - name: Install llvm-tools-preview
+      run: rustup component add llvm-tools-preview
+
+    - name: Install cargo-llvm-cov
+      run: cargo install cargo-llvm-cov
+
+    - name: Build project
+      run: cargo build
+
+    - name: Run tests with coverage
+      run: cargo llvm-cov ${{ inputs.args }}
+
+    - name: Generate coverage report in HTML
+      run: cargo llvm-cov --html --output-path target/coverage
+
+    - name: Set coverage path output
+      id: set-output
+      run: echo "::set-output name=coverage-path::target/coverage"
