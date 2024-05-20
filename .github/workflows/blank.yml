@@ -1,0 +1,28 @@
+name: Rust Test Coverage
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run cargo-llvm-cov custom action
+        uses: your-username/cargo-llvm-cov-action@v1
+        with:
+          args: '--all-features -- --tests'
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: ${{ steps.set-output.outputs.coverage-path }}
