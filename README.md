@@ -1,0 +1,1 @@
+Creating custom GitHub Actions for cargo-llvm-cov involves setting up a reusable action in a separate repository or within your own repository to handle installing and running cargo-llvm-cov. Below is an example of how to create a custom GitHub Action to run cargo-llvm-cov and generate a coverage report.
