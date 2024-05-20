@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run cargo-llvm-cov custom action
-        uses: ShazIndia/actions-development-rust@v1
+        uses: ./
         with:
           args: '--all-features -- --tests'
 
